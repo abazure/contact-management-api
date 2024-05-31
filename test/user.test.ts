@@ -35,6 +35,42 @@ describe("POST /api/users", () => {
       password: "test",
     });
     expect(result.status).toBe(409);
-    // expect(result.body.data.username).toBe("test");
+  });
+});
+
+describe("POST /api/users/login", () => {
+  beforeEach(async () => {
+    await UserTest.create();
+  });
+
+  afterEach(async () => {
+    await UserTest.delete();
+  });
+  it("should success login user", async () => {
+    const result = await supertest(app).post("/api/users/login").send({
+      username: "test",
+      password: "test",
+    });
+
+    expect(result.status).toBe(200);
+    expect(result.body.data.username).toBe("test");
+    expect(result.body.data.name).toBe("test");
+    expect(result.body.data.token).toBeDefined();
+  });
+  it("should reject login because invalid username", async () => {
+    const result = await supertest(app).post("/api/users/login").send({
+      username: "tes",
+      password: "test",
+    });
+
+    expect(result.status).toBe(401);
+  });
+  it("should reject login because invalid password", async () => {
+    const result = await supertest(app).post("/api/users/login").send({
+      username: "test",
+      password: "tes",
+    });
+
+    expect(result.status).toBe(401);
   });
 });
