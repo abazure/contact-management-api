@@ -12,9 +12,9 @@ Request Body :
 
 ```json
 {
-  "first_name": "Eko Kurniawan",
-  "last_name": "Khannedy",
-  "email": "eko@example.com",
+  "first_name": "Roni",
+  "last_name": "Ragil",
+  "email": "roni@example.com",
   "phone": "089999999"
 }
 ```
@@ -25,9 +25,9 @@ Response Body (Success) :
 {
   "data": {
     "id": 1,
-    "first_name": "Eko Kurniawan",
-    "last_name": "Khannedy",
-    "email": "eko@example.com",
+    "first_name": "Roni Ragil",
+    "last_name": "Ragil",
+    "email": "roni@example.com",
     "phone": "089999999"
   }
 }
@@ -55,9 +55,9 @@ Response Body (Success) :
 {
   "data": {
     "id": 1,
-    "first_name": "Eko Kurniawan",
-    "last_name": "Khannedy",
-    "email": "eko@example.com",
+    "first_name": "Roni",
+    "last_name": "Ragil",
+    "email": "roni@example.com",
     "phone": "089999999"
   }
 }
@@ -83,9 +83,9 @@ Request Body :
 
 ```json
 {
-  "first_name": "Eko Kurniawan",
-  "last_name": "Khannedy",
-  "email": "eko@example.com",
+  "first_name": "Roni",
+  "last_name": "Ragil",
+  "email": "roni@example.com",
   "phone": "089999999"
 }
 ```
@@ -96,9 +96,9 @@ Response Body (Success) :
 {
   "data": {
     "id": 1,
-    "first_name": "Eko Kurniawan",
-    "last_name": "Khannedy",
-    "email": "eko@example.com",
+    "first_name": "Roni",
+    "last_name": "Ragil",
+    "email": "roni@example.com",
     "phone": "089999999"
   }
 }
@@ -159,16 +159,16 @@ Response Body (Success) :
   "data": [
     {
       "id": 1,
-      "first_name": "Eko Kurniawan",
-      "last_name": "Khannedy",
-      "email": "eko@example.com",
+      "first_name": "Roni",
+      "last_name": "Ragil",
+      "email": "roni@example.com",
       "phone": "089999999"
     },
     {
       "id": 2,
-      "first_name": "Eko Kurniawan",
-      "last_name": "Khannedy",
-      "email": "eko@example.com",
+      "first_name": "Roni",
+      "last_name": "Ragil",
+      "email": "roni@example.com",
       "phone": "089999999"
     }
   ],
