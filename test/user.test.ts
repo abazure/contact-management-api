@@ -85,10 +85,54 @@ describe("GET /api/users", () => {
 
   it("should success get user data", async () => {
     const token = jwt.sign({ username: "test" }, "secret", { expiresIn: "1h" });
-    console.log(token);
     const result = await supertest(app)
       .get("/api/users")
       .set("Authorization", `Bearer ${token}`);
     expect(result.status).toBe(200);
+  });
+});
+
+describe("PATCH /api/users/update", () => {
+  beforeEach(async () => {
+    await UserTest.create();
+  });
+  afterEach(async () => {
+    await UserTest.delete();
+  });
+
+  it("should reject update user because of invalid request", async () => {
+    const token = jwt.sign({ username: "test" }, "secret", { expiresIn: "1h" });
+    const result = await supertest(app)
+      .patch("/api/users/update")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        name: "",
+        password: "",
+      });
+    expect(result.status).toBe(400);
+  });
+  it("should succes update user name and password", async () => {
+    const token = jwt.sign({ username: "test" }, "secret", { expiresIn: "1h" });
+    const result = await supertest(app)
+      .patch("/api/users/update")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        name: "test1",
+        password: "test1",
+      });
+    expect(result.status).toBe(200);
+    expect(result.body.data.name).toBe("test1");
+  });
+  it("should error User not found", async () => {
+    const token = jwt.sign({ username: "test" }, "secret", { expiresIn: "1h" });
+    await UserTest.delete();
+    const result = await supertest(app)
+      .patch("/api/users/update")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        name: "test1",
+        password: "test1",
+      });
+    expect(result.status).toBe(404);
   });
 });

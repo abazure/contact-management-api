@@ -4,6 +4,7 @@ import { Validation } from "../helper/validation";
 import {
   CreateUserRequest,
   LoginUserRequest,
+  UpdateUserRequest,
   UserResponse,
   toUserResponse,
 } from "../model/user-model";
@@ -80,5 +81,36 @@ export class UserService {
       },
     });
     return toUserResponse(user as User);
+  }
+  static async update(
+    user: string,
+    request: UpdateUserRequest
+  ): Promise<UserResponse> {
+    const userRequest = Validation.validate(UserValidation.UPDATE, request);
+    const userInDatabase = await prismaClient.user.findUnique({
+      where: {
+        username: user,
+      },
+    });
+    if (!userInDatabase) {
+      throw new ResponseError(404, "User not Found");
+    }
+    const updatedData: any = {};
+    if (userRequest.name) {
+      updatedData.name = userRequest.name;
+    }
+
+    if (userRequest.password) {
+      updatedData.password = await bcrypt.hash(userRequest.password, 10);
+    }
+    console.log(updatedData);
+    const result = await prismaClient.user.update({
+      where: {
+        username: user,
+      },
+      data: updatedData,
+    });
+    console.log(result);
+    return toUserResponse(result);
   }
 }
