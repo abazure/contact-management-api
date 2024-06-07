@@ -1,6 +1,7 @@
 import supertest from "supertest";
 import { app } from "../src/application/app";
 import { UserTest } from "./test-util";
+import jwt from "jsonwebtoken";
 describe("POST /api/users", () => {
   afterEach(async () => {
     await UserTest.delete();
@@ -51,7 +52,6 @@ describe("POST /api/users/login", () => {
       username: "test",
       password: "test",
     });
-
     expect(result.status).toBe(200);
     expect(result.body.data.username).toBe("test");
     expect(result.body.data.name).toBe("test");
@@ -72,5 +72,23 @@ describe("POST /api/users/login", () => {
     });
 
     expect(result.status).toBe(401);
+  });
+});
+
+describe("GET /api/users", () => {
+  beforeEach(async () => {
+    await UserTest.create();
+  });
+  afterEach(async () => {
+    await UserTest.delete();
+  });
+
+  it("should success get user data", async () => {
+    const token = jwt.sign({ username: "test" }, "secret", { expiresIn: "1h" });
+    console.log(token);
+    const result = await supertest(app)
+      .get("/api/users")
+      .set("Authorization", `Bearer ${token}`);
+    expect(result.status).toBe(200);
   });
 });

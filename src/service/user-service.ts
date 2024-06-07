@@ -11,6 +11,7 @@ import { UserValidation } from "../validation/user-validation";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
+import { User } from "@prisma/client";
 
 export class UserService {
   static async register(request: CreateUserRequest): Promise<UserResponse> {
@@ -57,7 +58,6 @@ export class UserService {
 
     const token = jwt.sign(
       {
-        nama: userInDatabase.name,
         username: userInDatabase.username,
       },
       "secret",
@@ -67,5 +67,18 @@ export class UserService {
     const response = toUserResponse(userInDatabase);
     response.token = token;
     return response;
+  }
+
+  static async get(request: string): Promise<UserResponse> {
+    const user = await prismaClient.user.findUnique({
+      where: {
+        username: request,
+      },
+      select: {
+        name: true,
+        username: true,
+      },
+    });
+    return toUserResponse(user as User);
   }
 }
